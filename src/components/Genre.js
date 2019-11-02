@@ -13,9 +13,8 @@ export default class Genre extends React.Component {
         return (
             <span
                 className={`genre ${selected ? 'is-selected' : ''}`}
-                onClick={() => {
-                    this.setState({ selected: true })
-                    this.props.clickHandler(id)
+                onClick={async () => {
+                    await this.props.clickHandler(id)
                 }}
             >
                 {' '}

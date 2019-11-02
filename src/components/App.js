@@ -10,46 +10,46 @@ class App extends React.Component {
     
     this.state = {
       list: [],
-      genres: [{id: 0, name: "Most Popular"}],
+      genres: [],
       selected: 0,
     };
   }
   async componentDidMount() {
     let res = await axios.get(endpoints.genres())
     let data = res.data
+    const movies = await this.getList()
     this.setState({
-      genres: [...this.state.genres, ...data.genres]
-    })
-    console.log(this.state.genres)
-    const endpoint = this.state.selected === 0?endpoints.mostPopularMovies:this.state.genres.filter(e => e.id == endpoints.genreMovies)
-    res = await axios.get(endpoint(this.state.selected));
-    data = res.data;
-    this.setState({
-      list: data.results,
-    });
+      genres: [{id: 0, name: "Most Popular"}, ...data.genres],
+      list: movies,
+    })  
   }
   
   getTitle = (title) => {
-    console.log(title);
+    console.log(title)
   };
 
-  setSelected = (id) => {
-    console.log(id)
+  async setSelected(id) {
+    const movies = await this.getList(id)
+    console.log('movies from api', movies.map(m => m.original_title))
     this.setState({
-      selected: id
-    })
-    this.forceUpdate()
+      selected: id,
+      list: movies,
+    })  
+    console.log('movies from state', this.state.list.map(m => m.original_title))
   }
-  
+
+  async getList(selected = 0){    
+    const endpoint = selected === 0?endpoints.mostPopularMovies:endpoints.genreMovies
+    let res = await axios.get(endpoint(selected));
+    return res.data.results;    
+  }
+
   render() {
-    console.log(endpoints.genres())
     return (
       <div>
-        <div>
           {this.state.genres.map(genre => (
             <Genre title={genre.name} id={genre.id} selected={this.state.selected === genre.id} clickHandler={(id) => this.setSelected(id)} />  
           ))}
-        </div>
         {this.state.list.map((card) => (
           <Card
             getTitle={this.getTitle}
