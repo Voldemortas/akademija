@@ -7,6 +7,7 @@ export default class Card extends React.Component {
     this.state = {
       title: props.title,
       showDescription: true,
+      liked: false,
     };
   }
   
@@ -15,7 +16,7 @@ export default class Card extends React.Component {
   }
   
   render() {
-    const { showDescription } = this.state;
+    const { showDescription, liked } = this.state;
     const { title, backgroundImage, date, rating, votes, description } = this.props;
     return (
       <div className="card">
@@ -30,7 +31,9 @@ export default class Card extends React.Component {
           </div>
       
           <div className="card__like">
-              <i className="fa fa-heart-o" />
+              <i onClick={() => {this.setState({liked: !liked})}} className="fa fa-heart-o">
+                {liked ? 'unlike' : 'like'}
+              </i>
           </div>
       
           <div className="card__subtitle">

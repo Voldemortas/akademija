@@ -9,16 +9,23 @@ class App extends React.Component {
     
     this.state = {
       list: [],
+      genres: [{id: 0, name: "Most Popular"}],
+      selected: 0,
     };
   }
-  componentDidMount() {
-    axios
-      .get(endpoints.mostPopularMovies())
-      .then((data) => {
-        this.setState({
-          list: data.data.results,
-        });
-      });
+  async componentDidMount() {
+    let res = await axios.get(endpoints.genres())
+    let data = res.data
+    this.setState({
+      genres: [...this.state.genres, ...data.genres]
+    })
+    console.log(this.state.genres)
+    const endpoint = this.state.selected === 0?endpoints.mostPopularMovies:this.state.genres.filter(e => e.id == endpoints.genreMovies)
+    res = await axios.get(endpoint(this.state.selected));
+    data = res.data;
+    this.setState({
+      list: data.results,
+    });
   }
   
   getTitle = (title) => {
@@ -26,8 +33,12 @@ class App extends React.Component {
   };
   
   render() {
+    console.log(endpoints.genres())
     return (
       <div>
+        <div>
+
+        </div>
         {this.state.list.map((card) => (
           <Card
             getTitle={this.getTitle}
