@@ -1,5 +1,6 @@
 import React from 'react';
 import Card from './Card';
+import Genre from './Genre';
 import axios from 'axios';
 import { endpoints, getImageUrl } from '../config';
 
@@ -31,13 +32,23 @@ class App extends React.Component {
   getTitle = (title) => {
     console.log(title);
   };
+
+  setSelected = (id) => {
+    console.log(id)
+    this.setState({
+      selected: id
+    })
+    this.forceUpdate()
+  }
   
   render() {
     console.log(endpoints.genres())
     return (
       <div>
         <div>
-
+          {this.state.genres.map(genre => (
+            <Genre title={genre.name} id={genre.id} selected={this.state.selected === genre.id} clickHandler={(id) => this.setSelected(id)} />  
+          ))}
         </div>
         {this.state.list.map((card) => (
           <Card
