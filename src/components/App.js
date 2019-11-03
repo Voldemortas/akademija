@@ -47,9 +47,9 @@ class App extends React.Component {
 
   setLikedMovies(id){
     console.log(id)
-    if(this.state.likedMovies.findIndex(e => e === id) != -1){
+    if(this.state.likedMovies.findIndex(e => e === id) !== -1){
       this.setState({
-        likedMovies: [...this.state.likedMovies.filter(e => e != id)]
+        likedMovies: [...this.state.likedMovies.filter(e => e !== id)]
       })
     }else{
       console.log('hi');
@@ -62,9 +62,11 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <div className={"genres"}>
           {this.state.genres.map(genre => (
             <Genre title={genre.name} id={genre.id} selected={this.state.selectedGenre === genre.id} clickHandler={(id) => this.setSelected(id)} />  
           ))}
+          </div>
         {this.state.list.map((card) => (
           <Card
             id={card.id}
@@ -76,7 +78,7 @@ class App extends React.Component {
             votes={card.vote_count}
             description={card.overview}
             title={card.original_title}
-            liked={this.state.likedMovies.findIndex(e => e == card.id) != -1}
+            liked={this.state.likedMovies.findIndex(e => e === card.id) !== -1}
             likeHandler={(id) => this.setLikedMovies(id)}
           />
         ))}

@@ -1,12 +1,6 @@
 import React from 'react'
 
 export default class Genre extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
-    componentDidMount() {
-    }
 
     render() {
         const { title, id, selected } = this.props
