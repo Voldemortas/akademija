@@ -11,7 +11,8 @@ class App extends React.Component {
     this.state = {
       list: [],
       genres: [],
-      selected: 0,
+      selectedGenre: 0,
+      likedMovies: [],
     };
   }
   async componentDidMount() {
@@ -32,26 +33,41 @@ class App extends React.Component {
     const movies = await this.getList(id)
     console.log('movies from api', movies.map(m => m.original_title))
     this.setState({
-      selected: id,
+      selectedGenre: id,
       list: movies,
     })  
     console.log('movies from state', this.state.list.map(m => m.original_title))
   }
 
-  async getList(selected = 0){    
-    const endpoint = selected === 0?endpoints.mostPopularMovies:endpoints.genreMovies
-    let res = await axios.get(endpoint(selected));
+  async getList(selectedGenre = 0){    
+    const endpoint = selectedGenre === 0?endpoints.mostPopularMovies:endpoints.genreMovies
+    let res = await axios.get(endpoint(selectedGenre));
     return res.data.results;    
+  }
+
+  setLikedMovies(id){
+    console.log(id)
+    if(this.state.likedMovies.findIndex(e => e === id) != -1){
+      this.setState({
+        likedMovies: [...this.state.likedMovies.filter(e => e != id)]
+      })
+    }else{
+      console.log('hi');
+      this.setState({
+        likedMovies: [...this.state.likedMovies, id]
+      })
+    }
   }
 
   render() {
     return (
       <div>
           {this.state.genres.map(genre => (
-            <Genre title={genre.name} id={genre.id} selected={this.state.selected === genre.id} clickHandler={(id) => this.setSelected(id)} />  
+            <Genre title={genre.name} id={genre.id} selected={this.state.selectedGenre === genre.id} clickHandler={(id) => this.setSelected(id)} />  
           ))}
         {this.state.list.map((card) => (
           <Card
+            id={card.id}
             getTitle={this.getTitle}
             key={card.original_title}
             backgroundImage={getImageUrl(card.backdrop_path)}
@@ -60,6 +76,8 @@ class App extends React.Component {
             votes={card.vote_count}
             description={card.overview}
             title={card.original_title}
+            liked={this.state.likedMovies.findIndex(e => e == card.id) != -1}
+            likeHandler={(id) => this.setLikedMovies(id)}
           />
         ))}
       </div>
