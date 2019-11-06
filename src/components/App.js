@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import { toggleCards, setSelected } from '../actions'
 import { getGenres, getGenreMovies } from '../thunks'
 import Card from './Card'
+import Genre from './Genre'
 import { getImageUrl } from '../config'
 
 class App extends React.Component {
   componentDidMount() {
-    this.props.onSetSelected(0)
     this.props.onGetGenres()
     this.props.onGetGenreMovies()
   }
@@ -23,7 +23,11 @@ class App extends React.Component {
             Hide movies
           </button>
         </header>
-
+        <div className={'genres'}>
+          {this.props.genres.map(genre => (
+            <Genre key={genre.name} name={genre.name} id={genre.id} />
+          ))}
+        </div>
         {this.props.showCards ? (
           <div className="cards">
             {this.props.mostPopularMovies.map(card => (
@@ -47,6 +51,8 @@ class App extends React.Component {
 const mapStateToProps = state => ({
   showCards: state.componentState.showCards,
   mostPopularMovies: state.cards.list,
+  genres: state.componentState.genres,
+  selected: state.componentState.selected,
 })
 const mapDispatchToProps = dispatch => ({
   onToggleCards: shouldShow => dispatch(toggleCards(shouldShow)),

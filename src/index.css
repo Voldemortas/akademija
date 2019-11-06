@@ -1,7 +1,7 @@
 html,
 body {
-  width:100%;
-  height:100%;
+  width: 100%;
+  height: 100%;
   padding: 0;
   margin: 0;
   overflow: hidden;
@@ -11,7 +11,7 @@ body {
   font-family: 'Roboto', sans-serif;
   color: white;
   background-size: cover;
-  background: linear-gradient(#B79891, #94716B);
+  background: linear-gradient(#b79891, #94716b);
   background-repeat: no-repeat;
 }
 
@@ -46,6 +46,10 @@ body {
   margin: 10px 30px;
   cursor: pointer;
   text-transform: uppercase;
+}
+
+.genre.is-selected {
+  text-decoration: underline;
 }
 
 .cards {
@@ -107,7 +111,7 @@ body {
 }
 
 .card__like i:hover {
-   transform: scale(1.4);
+  transform: scale(1.4);
 }
 
 .card__subtitle {
@@ -120,18 +124,18 @@ body {
 }
 
 .card__subtitle span:after {
-   content: '';
-   display: inline-block;
-   width: 4px;
-   height: 4px;
-   border-radius: 4px;
-   margin: 0 5px;
-   vertical-align: middle;
-   background: #bdbcdd;
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 4px;
+  margin: 0 5px;
+  vertical-align: middle;
+  background: #bdbcdd;
 }
 
 .card__subtitle span:last-child:after {
- display: none;
+  display: none;
 }
 
 .card-info {

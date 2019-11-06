@@ -16,7 +16,7 @@ const component = (state = initialState, action) => {
         ...state,
         genres: action.list,
       }
-    case 'setSelect':
+    case 'setSelected':
       return {
         ...state,
         selected: action.selected,
