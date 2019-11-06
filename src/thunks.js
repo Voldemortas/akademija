@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { setGenres, setMovies } from './actions'
+import { setGenres, setMovies, toggleHeart, log, setSelected } from './actions'
 import { endpoints } from './config'
 
 export const getGenres = () => dispatch => {
@@ -14,4 +14,15 @@ export const getGenreMovies = (genre = 0) => dispatch => {
   axios.get(callback(genre)).then(data => {
     dispatch(setMovies(data.data.results))
   })
+}
+
+export const thunkHeart = (movie, toggle) => dispatch => {
+  dispatch(toggleHeart(movie.id, toggle))
+  dispatch(log(!toggle ? 'setHeart' : 'unsetHeart', movie.title))
+}
+
+export const thunkGenre = genre => async dispatch => {
+  await dispatch(getGenreMovies(genre.id))
+  dispatch(setSelected(genre.id))
+  dispatch(log('setGenre', genre.name))
 }

@@ -1,12 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { toggleCards, setSelected } from '../actions'
+import { toggleCards, setSelected, log } from '../actions'
 import { getGenres, getGenreMovies } from '../thunks'
 import Card from './Card'
 import Genre from './Genre'
 import { getImageUrl } from '../config'
 
 class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.props.onInit()
+  }
+
   componentDidMount() {
     this.props.onGetGenres()
     this.props.onGetGenreMovies()
@@ -39,6 +44,7 @@ class App extends React.Component {
                 votes={card.vote_count}
                 description={card.overview}
                 title={card.original_title}
+                id={card.id}
               />
             ))}
           </div>
@@ -59,6 +65,7 @@ const mapDispatchToProps = dispatch => ({
   onGetGenreMovies: genre => dispatch(getGenreMovies(genre)),
   onSetSelected: selected => dispatch(setSelected(selected)),
   onGetGenres: () => dispatch(getGenres()),
+  onInit: () => dispatch(log('init')),
 })
 
 export default connect(

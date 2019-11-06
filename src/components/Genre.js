@@ -1,16 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { setSelected } from '../actions'
-import { getGenreMovies } from '../thunks'
+import { getGenreMovies, thunkGenre } from '../thunks'
 
 class Genre extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
-  async clickHandler(id) {
-    await this.props.onSetMovies(id)
-    this.props.onSelectGenre(id)
+  async clickHandler(obj) {
+    await this.props.onThunkGenre(obj)
   }
 
   render() {
@@ -18,7 +13,9 @@ class Genre extends React.Component {
     return (
       <div
         className={`genre ${isSelected ? 'is-selected' : ''}`}
-        onClick={() => this.clickHandler(this.props.id)}
+        onClick={() =>
+          this.clickHandler({ id: this.props.id, name: this.props.name })
+        }
       >
         {this.props.name}
       </div>
@@ -32,6 +29,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   onSelectGenre: id => dispatch(setSelected(id)),
   onSetMovies: id => dispatch(getGenreMovies(id)),
+  onThunkGenre: genre => dispatch(thunkGenre(genre)),
 })
 
 export default connect(

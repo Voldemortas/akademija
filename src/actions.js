@@ -17,3 +17,14 @@ export const setMovies = list => ({
   type: 'setMovies',
   list,
 })
+
+export const toggleHeart = (id, toggle) => ({
+  type: 'toggleHeart',
+  id,
+  toggle,
+})
+
+export const log = (type, name) => ({
+  type,
+  name,
+})
