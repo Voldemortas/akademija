@@ -1,15 +1,17 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { toggleCards } from '../actions';
-import { getMostPopularMovies } from '../thunks';
-import Card from './Card';
-import { getImageUrl } from '../config';
+import React from 'react'
+import { connect } from 'react-redux'
+import { toggleCards, setSelected } from '../actions'
+import { getGenres, getGenreMovies } from '../thunks'
+import Card from './Card'
+import { getImageUrl } from '../config'
 
 class App extends React.Component {
   componentDidMount() {
-    this.props.onGetMostPopularMovies();
+    this.props.onSetSelected(0)
+    this.props.onGetGenres()
+    this.props.onGetGenreMovies()
   }
-  
+
   render() {
     return (
       <div className="container">
@@ -21,40 +23,39 @@ class App extends React.Component {
             Hide movies
           </button>
         </header>
-        
-        {this.props.showCards
-          ? (
-            <div className="cards">
-              {this.props.mostPopularMovies.map((card) => (
-                <Card
-                  key={card.original_title}
-                  backgroundImage={getImageUrl(card.backdrop_path)}
-                  date={card.release_date}
-                  rating={card.vote_average}
-                  votes={card.vote_count}
-                  description={card.overview}
-                  title={card.original_title}
-                />
-              ))}
-            </div>
-          )
-          : null
-        }
+
+        {this.props.showCards ? (
+          <div className="cards">
+            {this.props.mostPopularMovies.map(card => (
+              <Card
+                key={card.original_title}
+                backgroundImage={getImageUrl(card.backdrop_path)}
+                date={card.release_date}
+                rating={card.vote_average}
+                votes={card.vote_count}
+                description={card.overview}
+                title={card.original_title}
+              />
+            ))}
+          </div>
+        ) : null}
       </div>
-    );
+    )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   showCards: state.componentState.showCards,
-  mostPopularMovies: state.cards.mostPopular,
-});
-const mapDispatchToProps = (dispatch) => ({
-  onToggleCards: (shouldShow) => dispatch(toggleCards(shouldShow)),
-  onGetMostPopularMovies: () => dispatch(getMostPopularMovies()),
-});
+  mostPopularMovies: state.cards.list,
+})
+const mapDispatchToProps = dispatch => ({
+  onToggleCards: shouldShow => dispatch(toggleCards(shouldShow)),
+  onGetGenreMovies: genre => dispatch(getGenreMovies(genre)),
+  onSetSelected: selected => dispatch(setSelected(selected)),
+  onGetGenres: () => dispatch(getGenres()),
+})
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
-)(App);
+  mapDispatchToProps
+)(App)
