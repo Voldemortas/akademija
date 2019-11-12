@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setGenres, setMovies, toggleHeart, log, setSelected } from "./actions";
+import { setGenres, setMovies, setSelected } from "./actions";
 import { endpoints } from "./config";
 
 export const getGenres = () => dispatch => {

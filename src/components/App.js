@@ -1,16 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import { toggleCards, setSelected, log } from "../actions";
+import { toggleCards, setSelected } from "../actions";
 import { getGenres, getGenreMovies } from "../thunks";
 import Card from "./Card";
 import Genre from "./Genre";
 import { getImageUrl } from "../config";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     this.props.onGetGenres();
     this.props.onGetGenreMovies();

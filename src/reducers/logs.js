@@ -1,41 +1,43 @@
-const initialState = {
-  events: [],
-  init: 0
-};
+const initialState = {};
 
 const write = (verbPhrase, object) => {
-  return `[${new Date()
-    .toISOString()
-    .replace("T", " ")
-    .replace("Z", "")}] ${verbPhrase} ${object}.`;
+  return [
+    new Date()
+      .toISOString()
+      .replace("T", " ")
+      .replace("Z", ""),
+    `${verbPhrase} ${object}.`
+  ];
 };
 
 const logs = (state = initialState, action) => {
+  var log, temp;
   if (action.type.includes("@redux/INIT")) {
+    log = write("Užkrauta", "aplikacija");
+    temp = { ...state };
+    temp[log[0]] = log[1];
+
     return {
-      ...state,
-      events: [...state.events, write("Užkrauta", "aplikacija")]
+      ...temp
     };
   }
   switch (action.type) {
     case "setSelected":
+      log = write("Žanras pakeistas į", action.genre.name);
+      temp = { ...state };
+      temp[log[0]] = log[1];
       return {
-        ...state,
-        events: [
-          ...state.events,
-          write("Žanras pakeistas į", action.genre.name)
-        ]
+        ...temp
       };
     case "toggleHeart":
+      log = write(
+        (action.toggle ? "Nuimta" : "Uždėta") + " širdelė filmui",
+        action.movie.title
+      );
+      temp = { ...state };
+      temp[log[0]] = log[1];
       return {
-        ...state,
-        events: [
-          ...state.events,
-          write(
-            (action.toggle ? "Nuimta" : "Uždėta") + " širdelė filmui",
-            action.movie.title
-          )
-        ]
+        ...temp
       };
     default:
       return state;
