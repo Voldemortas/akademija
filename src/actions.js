@@ -1,30 +1,25 @@
 export const toggleCards = shouldShow => ({
-  type: 'toggleCards',
-  shouldShow,
-})
+  type: "toggleCards",
+  shouldShow
+});
 
 export const setGenres = list => ({
-  type: 'setGenres',
-  list: [{ id: 0, name: 'Most popular' }, ...list],
-})
+  type: "setGenres",
+  list: [{ id: 0, name: "Most popular" }, ...list]
+});
 
-export const setSelected = selected => ({
-  type: 'setSelected',
-  selected,
-})
+export const setSelected = genre => ({
+  type: "setSelected",
+  genre
+});
 
 export const setMovies = list => ({
-  type: 'setMovies',
-  list,
-})
+  type: "setMovies",
+  list
+});
 
-export const toggleHeart = (id, toggle) => ({
-  type: 'toggleHeart',
-  id,
-  toggle,
-})
-
-export const log = (type, name) => ({
-  type,
-  name,
-})
+export const toggleHeart = (movie, toggle) => ({
+  type: "toggleHeart",
+  movie,
+  toggle
+});

@@ -1,19 +1,19 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { thunkHeart } from '../thunks'
+import React from "react";
+import { connect } from "react-redux";
+import { toggleHeart } from "../actions";
 
 class Card extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       title: props.title,
-      showDescription: true,
-    }
+      showDescription: true
+    };
   }
 
   render() {
-    const { showDescription } = this.state
+    const { showDescription } = this.state;
     const {
       id,
       title,
@@ -22,16 +22,16 @@ class Card extends React.Component {
       rating,
       votes,
       description,
-      hearts,
-    } = this.props
-    const isHearted = hearts.findIndex(e => e === id) !== -1
-    const heartIcon = isHearted ? 'fa fa-heart' : 'fa fa-heart-o'
+      hearts
+    } = this.props;
+    const isHearted = hearts.findIndex(e => e === id) !== -1;
+    const heartIcon = isHearted ? "fa fa-heart" : "fa fa-heart-o";
     return (
       <div className="card">
         <div
           className="card__image"
           style={{
-            backgroundImage: `url(${backgroundImage})`,
+            backgroundImage: `url(${backgroundImage})`
           }}
         />
 
@@ -55,7 +55,7 @@ class Card extends React.Component {
           <div className="card-info__header">Summary</div>
           <button
             onClick={() => {
-              this.setState({ showDescription: !showDescription })
+              this.setState({ showDescription: !showDescription });
             }}
           >
             Toggle
@@ -65,18 +65,15 @@ class Card extends React.Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = state => ({
-  hearts: state.cards.hearted,
-})
+  hearts: state.cards.hearted
+});
 const mapDispatchToProps = dispatch => ({
-  onToggleHeart: (movie, toggle) => dispatch(thunkHeart(movie, toggle)),
-})
+  onToggleHeart: (movie, toggle) => dispatch(toggleHeart(movie, toggle))
+});
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Card)
+export default connect(mapStateToProps, mapDispatchToProps)(Card);

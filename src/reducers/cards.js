@@ -1,25 +1,25 @@
 const initialState = {
   list: [],
-  hearted: [],
-}
+  hearted: []
+};
 
 const cards = (state = initialState, action) => {
   switch (action.type) {
-    case 'setMovies':
+    case "setMovies":
       return {
         ...state,
-        list: action.list,
-      }
-    case 'toggleHeart':
+        list: action.list
+      };
+    case "toggleHeart":
       return {
         ...state,
         hearted: action.toggle
-          ? state.hearted.filter(e => e !== action.id)
-          : [...state.hearted, action.id],
-      }
+          ? state.hearted.filter(e => e !== action.movie.id)
+          : [...state.hearted, action.movie.id]
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default cards
+export default cards;
